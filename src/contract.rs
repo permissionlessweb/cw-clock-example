@@ -3,7 +3,6 @@ use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg, SudoMsg};
 use crate::state::{Config, CONFIG, MOCK_DATA};
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
-use cosmwasm_std::testing::mock_dependencies;
 use cosmwasm_std::{to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
 use cw2::set_contract_version;
 
@@ -76,9 +75,12 @@ fn query_config(deps: Deps) -> StdResult<Config> {
     Ok(Config { val: count })
 }
 
+
+
 #[test]
 fn test_gas_consumption() -> StdResult<()> {
-    let mut deps = mock_dependencies();
+    #![cfg(not(target_arch = "wasm32"))]
+    let mut deps = cosmwasm_std::testing::mock_dependencies();
     MOCK_DATA.save(&mut deps.storage, &vec![])?;
     CONFIG.save(&mut deps.storage, &Config { val: 2 })?;
 
