@@ -7,3 +7,4 @@ pub struct Config {
 }
 
 pub const CONFIG: Item<Config> = Item::new("config");
+pub const MOCK_DATA: Item<Vec<u8>> = Item::new("mock_data");
